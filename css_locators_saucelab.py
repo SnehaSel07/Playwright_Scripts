@@ -1,0 +1,32 @@
+from playwright.sync_api import sync_playwright, expect
+#from pytest_playwright.pytest_playwright import browser
+
+# Page=class, expect=function used for assertions.
+def test_css_locators(page):
+     page.goto("https://www.saucedemo.com/")
+
+     # Locate the login logo using a CSS locator
+     page_title = page.locator("css=.login_logo") #login_logo
+
+     # Print the text of the page_title
+     print(page_title.text_content())
+
+    # Test_case1 : Verify the Atrributes
+     expect(page_title).to_be_visible()
+     expect(page_title).to_have_text("Swag Labs")
+
+
+# launching the browser
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=False)
+    page = browser.new_page()
+
+    test_css_locators(page)
+    page.wait_for_timeout(3000)
+
+    browser.close()
+
+
+
+
+
